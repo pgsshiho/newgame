@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,14 @@ public class Player : MonoBehaviour
     private SpriteRenderer sr;
     private Animator animator;
     public bool isJump = false;
+    public Slider HpBarSlider;
+    protected float curHealth = 100; //* 현재 체력
+    public float maxHealth = 100; //* 최대 체력
+    public void SetHp(float amount) //*Hp설정
+    {
+        maxHealth = amount;
+        curHealth = maxHealth;
+    }
 
     public void Awake()
     {
@@ -24,6 +33,15 @@ public class Player : MonoBehaviour
     {
         inputVec.x = Input.GetAxisRaw("Horizontal");
 
+        if (Input.GetKeyDown(KeyCode.C) && !isJump)
+        {
+            animator.SetBool("jumping", true);
+            isJump = true;
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            Debug.Log("점프 중");
+            animator.SetBool("Right_Move", false);
+        }
+
         if (inputVec.x != 0)
         {
             animator.SetBool("Right_Move", true);
@@ -32,14 +50,6 @@ public class Player : MonoBehaviour
         else
         {
             animator.SetBool("Right_Move", false);
-        }
-
-        if (Input.GetButtonDown("Jump") && !isJump)
-        {
-            animator.SetBool("jumping", true);
-            isJump = true;
-            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
-            Debug.Log("점프 중");
         }
     }
 
@@ -71,5 +81,22 @@ public class Player : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.DrawLine(transform.position, Vector3.down); 
+    }
+    public void CheckHp() //*HP 갱신
+    {
+        if (HpBarSlider != null)
+            HpBarSlider.value = curHealth / maxHealth;
+    }
+
+    public void Damage(float damage)
+    {
+        if (maxHealth == 0 || curHealth <= 0)
+            return;
+        curHealth -= damage;
+        CheckHp();
+        if (curHealth <= 0)
+        {
+          //death
+        }
     }
 }
