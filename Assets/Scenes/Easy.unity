@@ -503,6 +503,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 959009451}
+  - {fileID: 916593072}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &831685603
@@ -584,7 +585,12 @@ MonoBehaviour:
   inputVec: {x: 0, y: 0}
   isJump: 0
   HpBarSlider: {fileID: 2137230804}
+  curHealth: 100
   maxHealth: 100
+  invincibilityDuration: 3
+  flashDuration: 0.1
+  AttackDamage: 5
+  attackRange: 5
 --- !u!1 &842774582
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,7 +756,7 @@ RectTransform:
   - {fileID: 579789505}
   - {fileID: 115510201}
   - {fileID: 2137230803}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 831685602}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1098,7 +1104,7 @@ GameObject:
   - component: {fileID: 1270697715}
   - component: {fileID: 1270697717}
   - component: {fileID: 1270697716}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: slime-blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1185,6 +1191,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
+  damage: 10
+  maxHealth: 10
 --- !u!50 &1270697716
 Rigidbody2D:
   serializedVersion: 4
@@ -4637,6 +4645,5 @@ SceneRoots:
   - {fileID: 242417254}
   - {fileID: 927785581}
   - {fileID: 1386425557}
-  - {fileID: 916593072}
   - {fileID: 842774585}
   - {fileID: 1270697714}
