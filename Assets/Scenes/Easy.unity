@@ -622,11 +622,11 @@ MonoBehaviour:
   isJump: 0
   HpBarSlider: {fileID: 1669092814}
   curHealth: 100
-  maxHealth: 100
   invincibilityDuration: 3
   flashDuration: 0.1
   AttackDamage: 5
   attackRange: 5
+  sliderLerpSpeed: 2
 --- !u!1 &842774582
 GameObject:
   m_ObjectHideFlags: 0
@@ -1574,19 +1574,7 @@ MonoBehaviour:
   m_Value: 100
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 831685605}
-        m_TargetAssemblyTypeName: UnityEngine.MonoBehaviour, UnityEngine
-        m_MethodName: StopAllCoroutines
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!224 &1669092815
 RectTransform:
   m_ObjectHideFlags: 0

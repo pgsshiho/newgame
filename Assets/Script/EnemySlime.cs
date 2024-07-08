@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class EnemySlime : MonoBehaviour
 {
+    [SerializeField]
     public float speed = 2.0f; // 적의 이동 속도
     public float damage = 5.0f; // 플레이어에게 입힐 데미지
     public float maxHealth = 10.0f; // 적의 최대 체력
