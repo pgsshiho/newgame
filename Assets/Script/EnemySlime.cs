@@ -5,7 +5,7 @@ public class EnemySlime : MonoBehaviour
     public float speed = 2.0f; // 적의 이동 속도
     public float damage = 5.0f; // 플레이어에게 입힐 데미지
     public float maxHealth = 10.0f; // 적의 최대 체력
-    private float curHealth; // 적의 현재 체력
+    public float curHealth; // 적의 현재 체력
     private Transform player;  // 주인공의 Transform
 
     void Start()

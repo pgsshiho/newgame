@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public float maxSpeed = 10.0f;
+    [SerializeField]
+    private float maxSpeed = 10.0f;
     public float jumpPower = 5.0f;
     public Vector2 inputVec;
     private Rigidbody2D rigid;
@@ -14,8 +14,9 @@ public class Player : MonoBehaviour
     private Animator animator;
     public bool isJump = false;
     public Slider HpBarSlider;
-    public float curHealth = 100; //* 현재 체력
-    public float maxHealth = 100; //* 최대 체력
+    [SerializeField]
+    private float curHealth = 100; // 현재 체력
+    private float maxHealth = 100; // 최대 체력
     private bool isInvincible = false; // 무적 상태
     public float invincibilityDuration = 1.0f; // 무적 지속 시간
     public float flashDuration = 0.1f; // 깜빡임 간격
@@ -23,11 +24,13 @@ public class Player : MonoBehaviour
     public float attackRange = 5.0f; // 공격 범위
     EnemySlime ES;
 
-    public void SetHp(float amount) //*Hp설정
+    public float sliderLerpSpeed = 2.0f; // 슬라이더 변화 속도
+
+    public void SetHp(float amount) // Hp 설정
     {
         maxHealth = amount;
         curHealth = maxHealth;
-        CheckHp(); // 초기 HP 설정 시 체력바 갱신
+        CheckHp();
     }
 
     public void Awake()
@@ -93,23 +96,43 @@ public class Player : MonoBehaviour
         Gizmos.DrawLine(transform.position, Vector3.down);
     }
 
-    public void CheckHp() //*HP 갱신
+    public void CheckHp() // HP 갱신
     {
         if (HpBarSlider != null)
-            HpBarSlider.value = curHealth / maxHealth;
+        {
+            StartCoroutine(LerpHpBar(curHealth)); // 코루틴을 사용하여 슬라이더 값을 부드럽게 변경
+        }
+    }
+
+    private IEnumerator LerpHpBar(float targetHealth)
+    {
+        float startValue = HpBarSlider.value;
+        float endValue = targetHealth;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < 1f / sliderLerpSpeed)
+        {
+            elapsedTime += Time.deltaTime * sliderLerpSpeed;
+            HpBarSlider.value = Mathf.Lerp(startValue, endValue, elapsedTime);
+            yield return null;
+        }
+
+        HpBarSlider.value = endValue; // 마지막 값을 정확하게 설정
     }
 
     public void Damage(float damage)
     {
-        if (isInvincible || maxHealth == 0 || curHealth <= 0)
+        if (isInvincible || curHealth <= 0)
             return;
 
-        curHealth -= damage;
+        curHealth -= damage; // 현재 체력 감소
+        Debug.Log($"Damage taken: {damage}, Current Health: {curHealth}");
         CheckHp(); // 데미지를 입을 때 체력바 갱신
 
         if (curHealth <= 0)
         {
-            //death
+            // death 로직 추가
+            Debug.Log("Player is dead");
         }
         else
         {
